@@ -9,6 +9,7 @@ import (
 
 type SkillRepo interface {
 	GetSkills() ([]Skill, error)
+	GetSkillByKey(string) (Skill, error)
 }
 
 type SkillHandler struct {
@@ -27,4 +28,16 @@ func (h *SkillHandler) GetSkills(ctx *gin.Context) {
 	}
 
 	response.Success(ctx, http.StatusOK, skills)
+}
+
+func (h *SkillHandler) GetSkillByKey(ctx *gin.Context) {
+	key := ctx.Param("key")
+
+	skill, err := h.skillrepo.GetSkillByKey(key)
+	if err != nil {
+		response.Error(ctx, err)
+		return
+	}
+
+	response.Success(ctx, http.StatusOK, skill)
 }
