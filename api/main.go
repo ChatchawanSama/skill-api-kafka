@@ -38,7 +38,7 @@ func main() {
 
 	r.GET("/api/v1/skills", skillHandler.GetSkills)
 	r.GET("/api/v1/skills/:key", skillHandler.GetSkillByKey)
-	// r.POST("/api/v1/skills", postSkill)
+	r.POST("/api/v1/skills", skillHandler.PostSkillByKey)
 	// r.PUT("/api/v1/skills/:key", putSkillByKey)
 	// r.DELETE("/api/v1/skills/:key", deleteSkillByKey)
 	// r.PATCH("/api/v1/skills/:key/actions/name", patchSkillName)
