@@ -10,9 +10,8 @@ import (
 )
 
 type SkillRepo interface {
-	GetSkills() ([]Skill, error)
-	GetSkillByKey(string) (Skill, error)
-	PostSkillByKey(Skill) error
+	GetSkillsRepo() ([]Skill, error)
+	GetSkillByKeyRepo(string) (Skill, error)
 }
 
 type SkillHandler struct {
@@ -23,8 +22,8 @@ func NewSkillHandler(skillrepo SkillRepo) *SkillHandler {
 	return &SkillHandler{skillrepo: skillrepo}
 }
 
-func (h *SkillHandler) GetSkills(ctx *gin.Context) {
-	skills, err := h.skillrepo.GetSkills()
+func (h *SkillHandler) GetSkillsHandler(ctx *gin.Context) {
+	skills, err := h.skillrepo.GetSkillsRepo()
 	if err != nil {
 		response.Error(ctx, err)
 		return
@@ -33,10 +32,10 @@ func (h *SkillHandler) GetSkills(ctx *gin.Context) {
 	response.Success(ctx, http.StatusOK, skills)
 }
 
-func (h *SkillHandler) GetSkillByKey(ctx *gin.Context) {
+func (h *SkillHandler) GetSkillByKeyHandler(ctx *gin.Context) {
 	key := ctx.Param("key")
 
-	skill, err := h.skillrepo.GetSkillByKey(key)
+	skill, err := h.skillrepo.GetSkillByKeyRepo(key)
 	if err != nil {
 		response.Error(ctx, err)
 		return
@@ -45,7 +44,7 @@ func (h *SkillHandler) GetSkillByKey(ctx *gin.Context) {
 	response.Success(ctx, http.StatusOK, skill)
 }
 
-func (h *SkillHandler) PostSkill(ctx *gin.Context) {
+func (h *SkillHandler) PostSkillHandler(ctx *gin.Context) {
 	var skill Skill
 
 	if err := ctx.BindJSON(&skill); err != nil {
@@ -72,7 +71,7 @@ func (h *SkillHandler) PostSkill(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "Skill creation request queued"})
 }
 
-func (h *SkillHandler) PutSkillByKey(ctx *gin.Context) {
+func (h *SkillHandler) PutSkillByKeyHandler(ctx *gin.Context) {
 	key := ctx.Param("key")
 
 	var skill Skill
@@ -101,4 +100,32 @@ func (h *SkillHandler) PutSkillByKey(ctx *gin.Context) {
 	fmt.Println("SKill Joker ----------------------------------------------------------------> ", skillJSONString)
 	produceMessage(skillJSONString, "put")
 	ctx.JSON(http.StatusOK, gin.H{"message": "Skill updation request queued"})
+}
+
+func (h *SkillHandler) DeleteSkillByKeyHandler(ctx *gin.Context) {
+	key := ctx.Param("key")
+
+	skill, err := h.skillrepo.GetSkillByKeyRepo(key)
+	if err != nil {
+		response.Error(ctx, err)
+		return
+	}
+
+	// Marshal skill struct to JSON
+	skillJSON, err := json.Marshal(skill)
+	if err != nil {
+		fmt.Println("Error marshaling JSON:", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error marshaling skill data"})
+		return
+	}
+
+	// Convert JSON byte array to string
+	skillJSONString := string(skillJSON)
+
+	fmt.Println("Skill -> ", skillJSON)
+	fmt.Println("Skill JSON -> ", skillJSONString)
+
+	fmt.Println("SKill Joker ----------------------------------------------------------------> ", skillJSONString)
+	produceMessage(skillJSONString, "delete")
+	ctx.JSON(http.StatusOK, gin.H{"message": "Skill deletation request queued"})
 }

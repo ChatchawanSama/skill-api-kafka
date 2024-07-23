@@ -1,12 +1,25 @@
 package skill
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/IBM/sarama"
 )
 
 func ConsumeMessage(msg *sarama.ConsumerMessage, handler SkillHandler) {
 	topic, key, value := msg.Topic, string(msg.Key), msg.Value
 	valueStr := string(value)
+
+	var skill Skill
+
+	// Unmarshal the JSON string into a Skill struct
+	err := json.Unmarshal([]byte(valueStr), &skill)
+	if err != nil {
+		// Handle unmarshaling error
+		fmt.Println("Error unmarshaling JSON:", err)
+		return
+	}
 
 	// splitKey := strings.Split(key, "-")
 
@@ -21,20 +34,11 @@ func ConsumeMessage(msg *sarama.ConsumerMessage, handler SkillHandler) {
 
 	if topic == "skills" {
 		if key == "post" {
-			handler.PostSkillHandler(valueStr)
-		}else if key == "put" {
-			handler.PutSkillByKeyHandler(valueStr)
+			handler.PostSkillHandler(skill)
+		} else if key == "put" {
+			handler.PutSkillByKeyHandler(skill)
+		} else if key == "delete" {
+			handler.DeleteSkillByKeyHandler(skill)
 		}
-		// else if action == "update-name" {
-		// 	handler.updateNameByKeyHandler(value, skillKey)
-		// } else if action == "update-description" {
-		// 	handler.updateDescriptionByKeyHandler(value, skillKey)
-		// } else if action == "update-logo" {
-		// 	handler.updateLogoByKeyHandler(value, skillKey)
-		// } else if action == "update-tags" {
-		// 	handler.updateTagsByKeyHandler(value, skillKey)
-		// } else if action == "delete" {
-		// 	handler.deleteByKeyHandler(skillKey)
-		// }
 	}
 }

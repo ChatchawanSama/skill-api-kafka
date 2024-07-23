@@ -36,11 +36,11 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/api/v1/skills", skillHandler.GetSkills)
-	r.GET("/api/v1/skills/:key", skillHandler.GetSkillByKey)
-	r.POST("/api/v1/skills", skillHandler.PostSkill)
-	r.PUT("/api/v1/skills/:key", skillHandler.PutSkillByKey)
-	// r.DELETE("/api/v1/skills/:key", deleteSkillByKey)
+	r.GET("/api/v1/skills", skillHandler.GetSkillsHandler)
+	r.GET("/api/v1/skills/:key", skillHandler.GetSkillByKeyHandler)
+	r.POST("/api/v1/skills", skillHandler.PostSkillHandler)
+	r.PUT("/api/v1/skills/:key", skillHandler.PutSkillByKeyHandler)
+	r.DELETE("/api/v1/skills/:key", skillHandler.DeleteSkillByKeyHandler)
 	// r.PATCH("/api/v1/skills/:key/actions/name", patchSkillName)
 	// r.PATCH("/api/v1/skills/:key/actions/description", patchSkillDescription)
 	// r.PATCH("/api/v1/skills/:key/actions/logo", patchSkillLogo)

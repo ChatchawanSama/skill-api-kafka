@@ -40,3 +40,15 @@ func (r *skillRepo) PutSkillByKeyRepo(skill Skill) error {
 	}
 	return nil
 }
+
+func (r *skillRepo) DeleteSkillByKeyRepo(key string) error {
+	fmt.Println("Entering Delete Skill By Key Repo")
+
+	query := "DELETE FROM skill WHERE key=$1"
+	_, err := r.db.Exec(query, key)
+	if err != nil {
+		fmt.Println("Error deleting skill:", err)
+		return errors.NewError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
