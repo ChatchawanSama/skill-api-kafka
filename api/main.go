@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"skill-api-kafka/database"
-	"skill-api-kafka/skill"
+	"api/database"
+	"api/skill"
 	"syscall"
 	"time"
 

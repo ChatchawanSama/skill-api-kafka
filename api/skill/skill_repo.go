@@ -1,10 +1,10 @@
 package skill
 
 import (
+	"api/errors"
 	"database/sql"
 	"fmt"
 	"net/http"
-	"skill-api-kafka/errors"
 
 	"github.com/lib/pq"
 )
@@ -62,20 +62,4 @@ func (r *skillRepo) PostSkillByKey(skill Skill) error {
 		return errors.NewError(http.StatusInternalServerError, err.Error())
 	}
 	return nil
-
-	// fmt.Println("Skill created with Key:", skill.Key)
-	// // ctx.JSON(http.StatusCreated, skill)
-	// ctx.JSON(http.StatusOK, gin.H{"status": "success", "data": skill})
-
-	// q := "SELECT key, name, description, logo, tags FROM skill where key=$1"
-	// row := r.db.QueryRow(q, key)
-	// var name, description, logo string
-	// var tags pq.StringArray
-
-	// err := row.Scan(&key, &name, &description, &logo, &tags)
-	// if err != nil {
-	// 	fmt.Println("Error")
-	// }
-	// return Skill{key, name, description, logo, tags}, nil
-
 }

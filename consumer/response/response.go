@@ -1,8 +1,8 @@
 package response
 
 import (
-	"api/errors"
 	"net/http"
+	"consumer/errors"
 
 	"github.com/gin-gonic/gin"
 )

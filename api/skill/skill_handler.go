@@ -1,9 +1,10 @@
 package skill
 
 import (
+	"api/response"
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"skill-api-kafka/response"
 
 	"github.com/gin-gonic/gin"
 )
@@ -53,12 +54,20 @@ func (h *SkillHandler) PostSkillByKey(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Println("Skill------------------------------------>", skill)
-	err := h.skillrepo.PostSkillByKey(skill)
+	// Marshal skill struct to JSON
+	skillJSON, err := json.Marshal(skill)
 	if err != nil {
-		response.Error(ctx, err)
+		fmt.Println("Error marshaling JSON:", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error marshaling skill data"})
 		return
 	}
 
-	response.Success(ctx, http.StatusOK, skill)
+	// Convert JSON byte array to string
+	skillJSONString := string(skillJSON)
+
+	fmt.Println("Skill -> ", skillJSON)
+	fmt.Println("Skill JSON -> ", skillJSONString)
+
+	produceMessage(skillJSONString, "post")
+	ctx.JSON(http.StatusOK, gin.H{"message": "Skill creation request queued"})
 }
