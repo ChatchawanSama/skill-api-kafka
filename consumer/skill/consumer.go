@@ -21,11 +21,10 @@ func ConsumeMessage(msg *sarama.ConsumerMessage, handler SkillHandler) {
 
 	if topic == "skills" {
 		if key == "post" {
-			handler.PostSkillByKey(valueStr)
+			handler.PostSkillHandler(valueStr)
+		}else if key == "put" {
+			handler.PutSkillByKeyHandler(valueStr)
 		}
-		// else if key == "update" {
-		// 	handler.updateByKeyHandler(value, skillKey)
-		// }
 		// else if action == "update-name" {
 		// 	handler.updateNameByKeyHandler(value, skillKey)
 		// } else if action == "update-description" {

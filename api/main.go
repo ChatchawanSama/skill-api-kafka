@@ -1,14 +1,14 @@
 package main
 
 import (
+	"api/database"
+	"api/skill"
 	"context"
 	"errors"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"api/database"
-	"api/skill"
 	"syscall"
 	"time"
 
@@ -38,8 +38,8 @@ func main() {
 
 	r.GET("/api/v1/skills", skillHandler.GetSkills)
 	r.GET("/api/v1/skills/:key", skillHandler.GetSkillByKey)
-	r.POST("/api/v1/skills", skillHandler.PostSkillByKey)
-	// r.PUT("/api/v1/skills/:key", putSkillByKey)
+	r.POST("/api/v1/skills", skillHandler.PostSkill)
+	r.PUT("/api/v1/skills/:key", skillHandler.PutSkillByKey)
 	// r.DELETE("/api/v1/skills/:key", deleteSkillByKey)
 	// r.PATCH("/api/v1/skills/:key/actions/name", patchSkillName)
 	// r.PATCH("/api/v1/skills/:key/actions/description", patchSkillDescription)

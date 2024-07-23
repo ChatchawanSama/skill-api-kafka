@@ -45,7 +45,7 @@ func (h *SkillHandler) GetSkillByKey(ctx *gin.Context) {
 	response.Success(ctx, http.StatusOK, skill)
 }
 
-func (h *SkillHandler) PostSkillByKey(ctx *gin.Context) {
+func (h *SkillHandler) PostSkill(ctx *gin.Context) {
 	var skill Skill
 
 	if err := ctx.BindJSON(&skill); err != nil {
@@ -70,4 +70,35 @@ func (h *SkillHandler) PostSkillByKey(ctx *gin.Context) {
 
 	produceMessage(skillJSONString, "post")
 	ctx.JSON(http.StatusOK, gin.H{"message": "Skill creation request queued"})
+}
+
+func (h *SkillHandler) PutSkillByKey(ctx *gin.Context) {
+	key := ctx.Param("key")
+
+	var skill Skill
+	skill.Key = key
+
+	if err := ctx.BindJSON(&skill); err != nil {
+		fmt.Println("Error binding JSON:", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Marshal skill struct to JSON
+	skillJSON, err := json.Marshal(skill)
+	if err != nil {
+		fmt.Println("Error marshaling JSON:", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error marshaling skill data"})
+		return
+	}
+
+	// Convert JSON byte array to string
+	skillJSONString := string(skillJSON)
+
+	fmt.Println("Skill -> ", skillJSON)
+	fmt.Println("Skill JSON -> ", skillJSONString)
+
+	fmt.Println("SKill Joker ----------------------------------------------------------------> ", skillJSONString)
+	produceMessage(skillJSONString, "put")
+	ctx.JSON(http.StatusOK, gin.H{"message": "Skill updation request queued"})
 }

@@ -6,7 +6,8 @@ import (
 )
 
 type SkillRepo interface {
-	PostSkillByKey(Skill) error
+	PostSkillRepo(Skill) error
+	PutSkillByKeyRepo(Skill) error
 }
 
 type SkillHandler struct {
@@ -17,7 +18,7 @@ func NewSkillHandler(skillrepo SkillRepo) *SkillHandler {
 	return &SkillHandler{skillrepo: skillrepo}
 }
 
-func (h *SkillHandler) PostSkillByKey(value string) {
+func (h *SkillHandler) PostSkillHandler(value string) {
 	var skill Skill
 	
 	// Unmarshal the JSON string into a Skill struct
@@ -29,11 +30,29 @@ func (h *SkillHandler) PostSkillByKey(value string) {
 	}
 
 	// Pass the Skill struct to the repository method
-	err = h.skillrepo.PostSkillByKey(skill)
+	err = h.skillrepo.PostSkillRepo(skill)
 	if err != nil {
 		fmt.Println("Error saving skill to database:", err)
 		return
 	}
+}
 
-	// Optionally, you could add further response handling here
+
+func (h *SkillHandler) PutSkillByKeyHandler(value string) {
+	var skill Skill
+	
+	// Unmarshal the JSON string into a Skill struct
+	err := json.Unmarshal([]byte(value), &skill)
+	if err != nil {
+		// Handle unmarshaling error
+		fmt.Println("Error unmarshaling JSON:", err)
+		return
+	}
+
+	// Pass the Skill struct to the repository method
+	err = h.skillrepo.PutSkillByKeyRepo(skill)
+	if err != nil {
+		fmt.Println("Error updating skill to database:", err)
+		return
+	}
 }
