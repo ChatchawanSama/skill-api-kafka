@@ -7,3 +7,7 @@ type Skill struct {
 	Logo        string   `json:"logo"`
 	Tags        []string `json:"tags"`
 }
+
+type PatchSkillNameRequest struct {
+	Name string `json:"name"`
+}

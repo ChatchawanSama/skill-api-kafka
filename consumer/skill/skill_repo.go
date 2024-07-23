@@ -52,3 +52,15 @@ func (r *skillRepo) DeleteSkillByKeyRepo(key string) error {
 	}
 	return nil
 }
+
+func (r *skillRepo) PatchSkillNameRepo(key string, name string) error {
+	fmt.Println("Entering Patch Skill Name Repo")
+
+	query := "UPDATE skill SET name=$1 WHERE key=$2"
+	_, err := r.db.Exec(query, name, key)
+	if err != nil {
+		fmt.Println("Error updating skill name:", err)
+		return errors.NewError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
