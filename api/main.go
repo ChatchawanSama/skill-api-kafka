@@ -44,7 +44,7 @@ func main() {
 	r.PATCH("/api/v1/skills/:key/actions/name", skillHandler.PatchSkillNameHandler)
 	r.PATCH("/api/v1/skills/:key/actions/description", skillHandler.PatchSkillDescriptionHandler)
 	r.PATCH("/api/v1/skills/:key/actions/logo", skillHandler.PatchSkillLogoHandler)
-	// r.PATCH("/api/v1/skills/:key/actions/tags", skillHandler.PatchSkillTagsHandler)
+	r.PATCH("/api/v1/skills/:key/actions/tags", skillHandler.PatchSkillTagsHandler)
 
 	port := os.Getenv("HOST")
 

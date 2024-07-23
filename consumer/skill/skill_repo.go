@@ -88,3 +88,16 @@ func (r *skillRepo) PatchSkillLogoRepo(key string, logo string) error {
 	}
 	return nil
 }
+
+func (r *skillRepo) PatchSkillTagsRepo(key string, tags []string) error {
+	fmt.Println("Entering Patch Skill Tags Repo")
+	fmt.Println("GG ---------------------------------------------------> ", tags)
+
+	query := "UPDATE skill SET tags=$1 WHERE key=$2"
+	_, err := r.db.Exec(query, pq.Array(tags), key)
+	if err != nil {
+		fmt.Println("Error updating skill tags:", err)
+		return errors.NewError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}

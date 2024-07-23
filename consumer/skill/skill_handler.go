@@ -11,6 +11,7 @@ type SkillRepo interface {
 	PatchSkillNameRepo(string, string) error
 	PatchSkillDescriptionRepo(string, string) error
 	PatchSkillLogoRepo(string, string) error
+	PatchSkillTagsRepo(string, []string) error
 }
 
 type SkillHandler struct {
@@ -22,7 +23,6 @@ func NewSkillHandler(skillrepo SkillRepo) *SkillHandler {
 }
 
 func (h *SkillHandler) PostSkillHandler(skill Skill) {
-	// Pass the Skill struct to the repository method
 	err := h.skillrepo.PostSkillRepo(skill)
 	if err != nil {
 		fmt.Println("Error saving skill to database:", err)
@@ -31,7 +31,6 @@ func (h *SkillHandler) PostSkillHandler(skill Skill) {
 }
 
 func (h *SkillHandler) PutSkillByKeyHandler(skill Skill) {
-	// Pass the Skill struct to the repository method
 	err := h.skillrepo.PutSkillByKeyRepo(skill)
 	if err != nil {
 		fmt.Println("Error updating skill to database:", err)
@@ -40,7 +39,6 @@ func (h *SkillHandler) PutSkillByKeyHandler(skill Skill) {
 }
 
 func (h *SkillHandler) DeleteSkillByKeyHandler(skill Skill) {
-	// Pass the Skill struct to the repository method
 	err := h.skillrepo.DeleteSkillByKeyRepo(skill.Key)
 	if err != nil {
 		fmt.Println("Error updating skill to database:", err)
@@ -49,7 +47,6 @@ func (h *SkillHandler) DeleteSkillByKeyHandler(skill Skill) {
 }
 
 func (h *SkillHandler) PatchSkillNameHandler(skill Skill) {
-	// Pass the Skill struct to the repository method
 	err := h.skillrepo.PatchSkillNameRepo(skill.Key, skill.Name)
 	if err != nil {
 		fmt.Println("Error patching skill name to database:", err)
@@ -58,7 +55,6 @@ func (h *SkillHandler) PatchSkillNameHandler(skill Skill) {
 }
 
 func (h *SkillHandler) PatchSkillDescriptionHandler(skill Skill) {
-	// Pass the Skill struct to the repository method
 	err := h.skillrepo.PatchSkillDescriptionRepo(skill.Key, skill.Name)
 	if err != nil {
 		fmt.Println("Error patching skill name to database:", err)
@@ -67,10 +63,17 @@ func (h *SkillHandler) PatchSkillDescriptionHandler(skill Skill) {
 }
 
 func (h *SkillHandler) PatchSkillLogoHandler(skill Skill) {
-	// Pass the Skill struct to the repository method
 	err := h.skillrepo.PatchSkillLogoRepo(skill.Key, skill.Logo)
 	if err != nil {
 		fmt.Println("Error patching skill logo to database:", err)
+		return
+	}
+}
+
+func (h *SkillHandler) PatchSkillTagsHandler(skill Skill) {
+	err := h.skillrepo.PatchSkillTagsRepo(skill.Key, skill.Tags)
+	if err != nil {
+		fmt.Println("Error patching skill tags to database:", err)
 		return
 	}
 }

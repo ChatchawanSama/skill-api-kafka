@@ -45,6 +45,8 @@ func ConsumeMessage(msg *sarama.ConsumerMessage, handler SkillHandler) {
 			handler.PatchSkillDescriptionHandler(skill)
 		} else if key == "patch-logo" {
 			handler.PatchSkillLogoHandler(skill)
+		} else if key == "patch-tags" {
+			handler.PatchSkillTagsHandler(skill)
 		}
 	}
 }

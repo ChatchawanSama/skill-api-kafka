@@ -234,3 +234,40 @@ func (h *SkillHandler) PatchSkillLogoHandler(ctx *gin.Context) {
 	produceMessage(skillJSONString, "patch-logo")
 	ctx.JSON(http.StatusOK, gin.H{"message": "Skill patcing logo request queued"})
 }
+
+func (h *SkillHandler) PatchSkillTagsHandler(ctx *gin.Context) {
+	key := ctx.Param("key")
+	var tags PatchSkillTagsRequest
+
+	if err := ctx.BindJSON(&tags); err != nil {
+		fmt.Println("Error binding JSON:", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	skill, err := h.skillrepo.GetSkillByKeyRepo(key)
+	if err != nil {
+		response.Error(ctx, err)
+		return
+	}
+
+	skill.Tags = tags.Tags
+
+	// Marshal skill struct to JSON
+	skillJSON, err := json.Marshal(skill)
+	if err != nil {
+		fmt.Println("Error marshaling JSON:", err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error marshaling skill data"})
+		return
+	}
+
+	// Convert JSON byte array to string
+	skillJSONString := string(skillJSON)
+
+	fmt.Println("Skill -> ", skillJSON)
+	fmt.Println("Skill JSON -> ", skillJSONString)
+
+	fmt.Println("SKill Joker ----------------------------------------------------------------> ", skillJSONString)
+	produceMessage(skillJSONString, "patch-tags")
+	ctx.JSON(http.StatusOK, gin.H{"message": "Skill patcing tags request queued"})
+}
