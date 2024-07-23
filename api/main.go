@@ -42,9 +42,9 @@ func main() {
 	r.PUT("/api/v1/skills/:key", skillHandler.PutSkillByKeyHandler)
 	r.DELETE("/api/v1/skills/:key", skillHandler.DeleteSkillByKeyHandler)
 	r.PATCH("/api/v1/skills/:key/actions/name", skillHandler.PatchSkillNameHandler)
-	// r.PATCH("/api/v1/skills/:key/actions/description", patchSkillDescription)
-	// r.PATCH("/api/v1/skills/:key/actions/logo", patchSkillLogo)
-	// r.PATCH("/api/v1/skills/:key/actions/tags", patchSkillTags)
+	r.PATCH("/api/v1/skills/:key/actions/description", skillHandler.PatchSkillDescriptionHandler)
+	r.PATCH("/api/v1/skills/:key/actions/logo", skillHandler.PatchSkillLogoHandler)
+	// r.PATCH("/api/v1/skills/:key/actions/tags", skillHandler.PatchSkillTagsHandler)
 
 	port := os.Getenv("HOST")
 

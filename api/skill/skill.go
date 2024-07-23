@@ -11,3 +11,15 @@ type Skill struct {
 type PatchSkillNameRequest struct {
 	Name string `json:"name"`
 }
+
+type PatchSkillDescriptionRequest struct {
+	Description string `json:"description"`
+}
+
+type PatchSkillLogoRequest struct {
+	Logo string `json:"logo"`
+}
+
+type PatchSkillTagsRequest struct {
+	Tags []string `json:"tags"`
+}

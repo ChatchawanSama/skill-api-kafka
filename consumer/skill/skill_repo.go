@@ -64,3 +64,27 @@ func (r *skillRepo) PatchSkillNameRepo(key string, name string) error {
 	}
 	return nil
 }
+
+func (r *skillRepo) PatchSkillDescriptionRepo(key string, description string) error {
+	fmt.Println("Entering Patch Skill Description Repo")
+
+	query := "UPDATE skill SET description=$1 WHERE key=$2"
+	_, err := r.db.Exec(query, description, key)
+	if err != nil {
+		fmt.Println("Error updating skill description:", err)
+		return errors.NewError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func (r *skillRepo) PatchSkillLogoRepo(key string, logo string) error {
+	fmt.Println("Entering Patch Skill Logo Repo")
+
+	query := "UPDATE skill SET logo=$1 WHERE key=$2"
+	_, err := r.db.Exec(query, logo, key)
+	if err != nil {
+		fmt.Println("Error updating skill logo:", err)
+		return errors.NewError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}

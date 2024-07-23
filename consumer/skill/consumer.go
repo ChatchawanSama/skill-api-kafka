@@ -41,6 +41,10 @@ func ConsumeMessage(msg *sarama.ConsumerMessage, handler SkillHandler) {
 			handler.DeleteSkillByKeyHandler(skill)
 		} else if key == "patch-name" {
 			handler.PatchSkillNameHandler(skill)
+		} else if key == "patch-description" {
+			handler.PatchSkillDescriptionHandler(skill)
+		} else if key == "patch-logo" {
+			handler.PatchSkillLogoHandler(skill)
 		}
 	}
 }

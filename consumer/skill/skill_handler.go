@@ -9,6 +9,8 @@ type SkillRepo interface {
 	PutSkillByKeyRepo(Skill) error
 	DeleteSkillByKeyRepo(string) error
 	PatchSkillNameRepo(string, string) error
+	PatchSkillDescriptionRepo(string, string) error
+	PatchSkillLogoRepo(string, string) error
 }
 
 type SkillHandler struct {
@@ -51,6 +53,24 @@ func (h *SkillHandler) PatchSkillNameHandler(skill Skill) {
 	err := h.skillrepo.PatchSkillNameRepo(skill.Key, skill.Name)
 	if err != nil {
 		fmt.Println("Error patching skill name to database:", err)
+		return
+	}
+}
+
+func (h *SkillHandler) PatchSkillDescriptionHandler(skill Skill) {
+	// Pass the Skill struct to the repository method
+	err := h.skillrepo.PatchSkillDescriptionRepo(skill.Key, skill.Name)
+	if err != nil {
+		fmt.Println("Error patching skill name to database:", err)
+		return
+	}
+}
+
+func (h *SkillHandler) PatchSkillLogoHandler(skill Skill) {
+	// Pass the Skill struct to the repository method
+	err := h.skillrepo.PatchSkillLogoRepo(skill.Key, skill.Logo)
+	if err != nil {
+		fmt.Println("Error patching skill logo to database:", err)
 		return
 	}
 }
