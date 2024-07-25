@@ -16,7 +16,6 @@ import (
 	"syscall"
 
 	"github.com/IBM/sarama"
-	"github.com/joho/godotenv"
 )
 
 // Sarama configuration options
@@ -125,9 +124,9 @@ func (Consumer) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.Cons
 	// https://github.com/IBM/sarama/blob/main/consumer_group.go#L27-L29
 	//Set Database
 	// Load environment variables from .env file
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
+	// if err := godotenv.Load(); err != nil {
+	// 	log.Fatalf("Error loading .env file: %v", err)
+	// }
 
 	database.ConnectDB()
 	db := database.DB

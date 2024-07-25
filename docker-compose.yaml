@@ -75,3 +75,32 @@ services:
       DYNAMIC_CONFIG_ENABLED: 'true'  # not necessary, added for tests
       KAFKA_CLUSTERS_0_AUDIT_TOPICAUDITENABLED: 'true'
       KAFKA_CLUSTERS_0_AUDIT_CONSOLEAUDITENABLED: 'true'
+
+  # kafka-api:
+  #   image: kafka-api
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - .env    
+  #   ports:
+  #     - 8910:8910
+  #   restart: always
+  kafka-api:
+    image: kafka-api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    env_file: ./api/.env
+    ports:
+      - 8080:8080
+    restart: always
+ 
+
+  kafka-consumer:
+    image: kafka-consumer:1.0.0
+    build:
+      context: ./consumer
+      dockerfile: Dockerfile
+    env_file: ./consumer/.env
+    restart: always
